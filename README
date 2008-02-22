@@ -1,0 +1,14 @@
+workerpool
+==========
+
+Copyright (c) 2008 Andrey Petrov (andrey.petrov@shazow.net)
+
+Original copyright by Idee Inc. (http://ideeinc.com/)
+
+http://code.google.com/p/workerpool/
+
+The workerpool module is a simple framework for easily distributing jobs 
+into multiple worker threads.
+
+Examples of usage can be found in the unit tests (/test) and the samples 
+provided (/samples).
