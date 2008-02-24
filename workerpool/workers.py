@@ -1,4 +1,8 @@
 # workers.py - Worker objects who become members of a worker pool
+# Copyright (c) 2008 Andrey Petrov
+#
+# This module is part of workerpool and is released under
+# the MIT license: http://www.opensource.org/licenses/mit-license.php
 
 from threading import Thread
 from jobs import Job, SimpleJob

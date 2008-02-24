@@ -1,4 +1,8 @@
 # jobs.py - Generic jobs used with the worker pool
+# Copyright (c) 2008 Andrey Petrov
+#
+# This module is part of workerpool and is released under
+# the MIT license: http://www.opensource.org/licenses/mit-license.php
 
 from exceptions import TerminationNotice
 

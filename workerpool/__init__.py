@@ -1,3 +1,9 @@
+# __init__.py
+# Copyright (c) 2008 Andrey Petrov
+#
+# This module is part of workerpool and is released under
+# the MIT license: http://www.opensource.org/licenses/mit-license.php
+
 """
 Workerpool module provides a threading framework for managing a constant pool
 of worker threads that perform arbitrary jobs.

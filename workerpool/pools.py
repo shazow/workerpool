@@ -1,4 +1,8 @@
 # workerpool.py - Module for distributing jobs to a pool of worker threads.
+# Copyright (c) 2008 Andrey Petrov
+#
+# This module is part of workerpool and is released under
+# the MIT license: http://www.opensource.org/licenses/mit-license.php
 
 from Queue import Queue
 from workers import Worker
