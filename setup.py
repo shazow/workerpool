@@ -26,7 +26,7 @@ It consists of these components:
       'Operating System :: MacOS :: MacOS X',
       'License :: OSI Approved :: MIT License',
       ],
-      keywords='pooling, threading, jobs',
+      keywords='pooling threading jobs',
       author='Andrey Petrov',
       author_email='andrey.petrov@shazow.net',
       url='http://code.google.com/p/workerpool/',
