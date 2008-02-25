@@ -40,4 +40,5 @@ It consists of these components:
       entry_points="""
       # -*- Entry points: -*-
       """,
+      test_suite = 'nose.collector'
       )
