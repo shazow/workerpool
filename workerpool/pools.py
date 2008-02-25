@@ -69,8 +69,8 @@ class WorkerPool:
         Insert a job into the pool queue. Takes same parameters as a Queue
         object.
 
-        Hint: Have the job append the results to a shared queue from which the
-        caller will read.
+        Hint: Have the job append the results to a queue shared by all workers,
+        from which the caller will read an expected number of results.
         """
         self._jobs.put(job, block, timeout)
 
@@ -83,12 +83,9 @@ class WorkerPool:
         return self._size
 
     def map(self, fn, seq, JobClass=SimpleJob):
-        """
-        Perform a map operation distributed among the workers.
-
-        TODO: Enhance this method to support multiple sequences similarly to
-        the built-in version of map.
-        """
+        "Perform a map operation distributed among the workers. Will block until done."
+        # TODO: Enhance this method to support multiple sequences similarly to
+        # the built-in version of map.
         results = Queue()
         for s in seq:
             j = JobClass(results, fn, [s])

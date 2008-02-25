@@ -37,4 +37,3 @@ class SimpleJob(Job):
         elif isinstance(self.args, dict):
             r = self.method(**self.args)
         self.result.put(r)
-

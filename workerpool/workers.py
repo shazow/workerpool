@@ -10,7 +10,6 @@ from exceptions import TerminationNotice
 
 class Worker(Thread):
     "A loyal worker who will pull jobs from the `jobs` queue and perform them."
-    DefaultJob = SimpleJob
 
     def __init__(self, jobs):
         self.jobs = jobs
@@ -32,13 +31,11 @@ class Worker(Thread):
 
 class EquippedWorker(Worker):
     """
-    Each worker will create an instance of `toolbox` and hang on to it through
-    its lifetime. This can be used to pass in persistent connections to
-    services that the worker will be using.
-
-    TODO: Should this become the default Worker someday?
+    Each worker will create an instance of `toolbox` and hang on to it during
+    its lifetime. This can be used to pass in a resource such as a persistent 
+    connections to services that the worker will be using.
     """
-    DefaultJob = SimpleJob
+    # TODO: Should a variation of this become the default Worker someday?
 
     def __init__(self, jobs, toolbox):
         cls, args = toolbox
@@ -58,4 +55,3 @@ class EquippedWorker(Worker):
                 break
             finally:
                 self.jobs.task_done()
-

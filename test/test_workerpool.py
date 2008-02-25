@@ -16,7 +16,7 @@ class TestWorkerPool(unittest.TestCase):
         assert r == [2,4,6,8,10]
 
     def test_wait(self):
-        "Make sure each task gets marked as done so wait works."
+        "Make sure each task gets marked as done so pool.wait() works."
         pool = workerpool.WorkerPool(5)
         q = Queue()
         for i in xrange(100):
@@ -38,7 +38,7 @@ class TestWorkerPool(unittest.TestCase):
         self.assertEquals(pool.size(), 2)
 
     def test_changesize(self):
-        " Change sizes and make sure pool doesn't work with no workers."
+        "Change sizes and make sure pool doesn't work with no workers."
         pool = workerpool.WorkerPool(5)
         for i in xrange(5):
             pool.grow()
