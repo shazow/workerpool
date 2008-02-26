@@ -35,7 +35,7 @@ class EquippedWorker(Worker):
     its lifetime. This can be used to pass in a resource such as a persistent 
     connections to services that the worker will be using.
 
-    A ``toolbox`` is a ``(klass, args)`` tuple, there klass is a reference to a
+    A ``toolbox`` is a ``(klass, args)`` tuple, where klass is a reference to a
     Class and args is a list or dictionary of parameters that will be passed
     into the constructor of the klass.
     """
