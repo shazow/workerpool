@@ -31,18 +31,22 @@ class Worker(Thread):
 
 class EquippedWorker(Worker):
     """
-    Each worker will create an instance of `toolbox` and hang on to it during
+    Each worker will create an instance of ``toolbox`` and hang on to it during
     its lifetime. This can be used to pass in a resource such as a persistent 
     connections to services that the worker will be using.
+
+    A ``toolbox`` is a ``(klass, args)`` tuple, there klass is a reference to a
+    Class and args is a list or dictionary of parameters that will be passed
+    into the constructor of the klass.
     """
     # TODO: Should a variation of this become the default Worker someday?
 
     def __init__(self, jobs, toolbox):
-        cls, args = toolbox
+        klass, args = toolbox
         if isinstance(args, list):
-            self.toolbox = cls(*args)
+            self.toolbox = klass(*args)
         elif isinstance(args, dict):
-            self.toolbox = cls(**args)
+            self.toolbox = klass(**args)
         Worker.__init__(self, jobs)
 
     def run(self):
