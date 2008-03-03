@@ -24,6 +24,7 @@ It consists of these components:
       'Programming Language :: Python',
       'Topic :: Software Development :: Libraries :: Python Modules',
       'License :: OSI Approved :: MIT License',
+      'Operating System :: OS Independent',
       ],
       keywords='pooling threading jobs',
       author='Andrey Petrov',
