@@ -32,7 +32,7 @@ class SimpleJob(Job):
         self.args = args
 
     def run(self):
-        if isinstance(self.args, list):
+        if isinstance(self.args, list) or isinstance(self.args, tuple):
             r = self.method(*self.args)
         elif isinstance(self.args, dict):
             r = self.method(**self.args)

@@ -1,0 +1,16 @@
+Changes
+=======
+
+0.9.1
+-----
+
+* Changed ``WorkerPool.map`` to behave more like Python's built-in `map` method.
+  In consequence, you can no longer define a custom job class to be used by the
+  ``WorkerPool.map`` method. This will probably change before a 1.0 release.
+* Added a unit test for the new ``WorkerPool.map`` functionality.
+
+
+0.9
+---
+
+* Initial public release.

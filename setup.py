@@ -3,11 +3,11 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.9'
+version = '0.9.1'
 
 setup(name='workerpool',
       version=version,
-      description="Module for distribution jobs to a pool of worker threads.",
+      description="Module for distributing jobs to a pool of worker threads.",
       long_description="""\
 Performing tasks in many threads made fun!
 
@@ -23,7 +23,6 @@ It consists of these components:
       'Intended Audience :: Developers',
       'Programming Language :: Python',
       'Topic :: Software Development :: Libraries :: Python Modules',
-      'Operating System :: MacOS :: MacOS X',
       'License :: OSI Approved :: MIT License',
       ],
       keywords='pooling threading jobs',

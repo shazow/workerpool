@@ -82,18 +82,17 @@ class WorkerPool:
         "Approximate number of active workers (could be more if a shrinking is in progress)."
         return self._size
 
-    def map(self, fn, seq, JobClass=SimpleJob):
+    def map(self, fn, *seq):
         "Perform a map operation distributed among the workers. Will block until done."
-        # TODO: Enhance this method to support multiple sequences similarly to
-        # the built-in version of map.
         results = Queue()
-        for s in seq:
-            j = JobClass(results, fn, [s])
+        args = zip(*seq)
+        for seq in args:
+            j = SimpleJob(results, fn, seq)
             self.put(j)
 
         # Aggregate results
         r = []
-        for i in xrange(len(seq)):
+        for i in xrange(len(args)):
             r.append(results.get())
 
         return r
