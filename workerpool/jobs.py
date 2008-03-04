@@ -36,4 +36,8 @@ class SimpleJob(Job):
             r = self.method(*self.args)
         elif isinstance(self.args, dict):
             r = self.method(**self.args)
+        self._return(r)
+
+    def _return(self, r):
+        "Handle return value by appending to the ``self.result`` queue."
         self.result.put(r)
