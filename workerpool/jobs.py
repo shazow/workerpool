@@ -6,6 +6,8 @@
 
 from exceptions import TerminationNotice
 
+__all__ = ['Job', 'SuicideJob', 'SimpleJob']
+
 class Job(object):
     "Interface for a Job object."
     def __init__(self):

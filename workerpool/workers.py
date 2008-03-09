@@ -8,6 +8,8 @@ from threading import Thread
 from jobs import Job, SimpleJob
 from exceptions import TerminationNotice
 
+__all__ = ['Worker', 'EquippedWorker']
+
 class Worker(Thread):
     """
     A loyal worker who will pull jobs from the `jobs` queue and perform them.
@@ -42,18 +44,13 @@ class EquippedWorker(Worker):
     its lifetime. This can be used to pass in a resource such as a persistent 
     connections to services that the worker will be using.
 
-    A ``toolbox`` is a ``(klass, args)`` tuple, where klass is a reference to a
-    Class and args is a list or dictionary of parameters that will be passed
-    into the constructor of the klass.
+    The toolbox factory is called without arguments to produce an instance of
+    an object which contains resources necessary for this Worker to perform.
     """
     # TODO: Should a variation of this become the default Worker someday?
 
-    def __init__(self, jobs, toolbox):
-        klass, args = toolbox
-        if isinstance(args, list):
-            self.toolbox = klass(*args)
-        elif isinstance(args, dict):
-            self.toolbox = klass(**args)
+    def __init__(self, jobs, toolbox_factory):
+        self.toolbox = toolbox_factory()
         Worker.__init__(self, jobs)
 
     def run(self):

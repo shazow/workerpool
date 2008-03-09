@@ -1,5 +1,9 @@
 from workerpool import WorkerPool
 
+"""
+WARNING: This sample class is obsolete since version 0.9.2. It will be removed or replaced soon.
+"""
+
 class BlockingWorkerPool(WorkerPool):
     """
     Similar to WorkerPool but a result queue is passed in along with each job

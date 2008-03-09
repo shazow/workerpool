@@ -26,5 +26,5 @@ for performing a specialized type of job.
 
 from exceptions import *
 from jobs import *
-from pools import WorkerPool
-from workers import Worker, EquippedWorker
+from pools import *
+from workers import *

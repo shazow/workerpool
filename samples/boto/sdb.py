@@ -18,7 +18,6 @@ except ImportError:
     """
     raise
 
-
 class SDBToolBox(object):
     "Create a connection to SimpleDB and hold on to it."
     def __init__(self, domain):
@@ -28,18 +27,17 @@ class SDBToolBox(object):
 class SdbJob(SimpleJob):
     def run(self, toolbox):
         assert isinstance(toolbox.domain, self.method.im_class), "Method pointer must come from the Domain class"
-        if isinstance(self.args, list):
-            r = self.method(toolbox.domain, *self.args)
-        elif isinstance(self.args, dict):
-            r = self.method(toolbox.domain, **self.args)
+        r = self.method(toolbox.domain, *self.args)
         self.result.put(r)
 
 # Sample usage
+import time
+from Queue import Queue
 
 def main():
-    import time
+    DOMAIN = "benchmark"
     conn = boto.connect_sdb()
-    domain = conn.get_domain("benchmark")
+    domain = conn.get_domain(DOMAIN)
 
     # Prepare item list
     items = []
@@ -58,16 +56,30 @@ def main():
 
     # Prepare the pool
     print "Initializing pool."
-    pool = WorkerPool(size=20, WorkerClass=EquippedWorker, workerargs={'toolbox': (SDBToolBox, ['benchmark'])})
+
+    def toolbox_factory():
+        return SDBToolBox(DOMAIN)
+    def worker_factory(job_queue):
+        return EquippedWorker(job_queue, toolbox_factory)
+    
+    pool = WorkerPool(size=20, worker_factory=worker_factory)
 
     print "Starting to fetch items..."
     now = time.time()
-    r = pool.map(boto.sdb.domain.Domain.get_item, items, JobClass=SdbJob)
+
+    # Insert jobs
+    results_queue = Queue()
+    for i in items:
+        j = SdbJob(results_queue, boto.sdb.domain.Domain.get_item, [i])
+        pool.put(j)
+
+    # Fetch results
+    r = [results_queue.get() for i in items]
     elapsed = time.time() - now
 
     print "Fetched %d items paralleled in %f seconds." % (len(r), elapsed)
 
-    del pool
+    pool.shutdown()
 
 if __name__ == "__main__":
     main()

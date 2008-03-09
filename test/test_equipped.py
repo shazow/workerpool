@@ -28,7 +28,13 @@ class TestEquippedWorkers(unittest.TestCase):
         keep track of the job count.
         """
         results = Queue()
-        pool = workerpool.WorkerPool(1, WorkerClass=workerpool.EquippedWorker, workerargs={'toolbox': (Counter, [])})
+
+        def toolbox_factory():
+            return Counter()
+        def worker_factory(job_queue):
+            return workerpool.EquippedWorker(job_queue, toolbox_factory)
+
+        pool = workerpool.WorkerPool(1, worker_factory=worker_factory)
 
         # Run 10 jobs
         for i in xrange(10):
@@ -40,3 +46,5 @@ class TestEquippedWorkers(unittest.TestCase):
             r = results.get()
             # Each result should be an incremented value
             self.assertEquals(r, i)
+
+        pool.shutdown()
