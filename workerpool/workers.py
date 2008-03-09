@@ -9,7 +9,14 @@ from jobs import Job, SimpleJob
 from exceptions import TerminationNotice
 
 class Worker(Thread):
-    "A loyal worker who will pull jobs from the `jobs` queue and perform them."
+    """
+    A loyal worker who will pull jobs from the `jobs` queue and perform them.
+
+    The run method will get jobs from the `jobs` queue passed into the
+    constructor, and execute them. After each job, task_done() must be executed
+    on the `jobs` queue in order for the pool to know when no more jobs are
+    being processed.
+    """
 
     def __init__(self, jobs):
         self.jobs = jobs
@@ -20,14 +27,14 @@ class Worker(Thread):
         while 1:
             # Sleep until there is a job to perform.
             job = self.jobs.get()
+
             # Yawn. Time to get some work done.
             try:
                 job.run()
-            except TerminationNotice:
-                break 
-            finally:
-                # Get ready for bed
                 self.jobs.task_done()
+            except TerminationNotice:
+                self.jobs.task_done()
+                break 
 
 class EquippedWorker(Worker):
     """
@@ -55,7 +62,7 @@ class EquippedWorker(Worker):
             job = self.jobs.get()
             try:
                 job.run(toolbox=self.toolbox)
-            except TerminationNotice:
-                break
-            finally:
                 self.jobs.task_done()
+            except TerminationNotice:
+                self.jobs.task_done()
+                break

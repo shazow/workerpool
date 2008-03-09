@@ -8,9 +8,13 @@ from Queue import Queue
 from workers import Worker
 from jobs import SimpleJob, SuicideJob
 
-class WorkerPool:
+class WorkerPool(Queue):
     """
     Initialize a pool of threads which will be used to perform operations.
+    Insert jobs into the WorkerPool with the `put` method.
+        Hint: Have the job append the results to a queue shared by all workers,
+        from which the caller will read an expected number of results.
+
 
     size = 1
         Number of active worker threads the pool should contain.
@@ -28,10 +32,13 @@ class WorkerPool:
     def __init__(self, size=1, maxjobs=0, WorkerClass=Worker, workerargs=None):
         self._WorkerClass = WorkerClass
         self._workerargs = workerargs
-        self._jobs = Queue(maxjobs) # This queue will contain Job objects read by the workers.
         self._size = 0 # Number of active workers we have
 
-        # Oh noes, we're understaffed. Hire some workers!
+        # Initialize the Queue
+        Queue.__init__(self, maxjobs) # The queue contains job that are read by workers
+        self._jobs = self # Pointer to the queue, for backwards compatibility with version 0.9.1 and earlier
+
+        # Hire some workers!
         for i in xrange(size):
             self.grow()
 
@@ -42,6 +49,7 @@ class WorkerPool:
         "Retire the workers."
         for i in xrange(self.size()):
             self.put(SuicideJob())
+        Queue.__del__(self) # TODO: Is this necessary?
 
     def grow(self):
         "Add another worker to the pool."
@@ -49,11 +57,11 @@ class WorkerPool:
         # TODO: This part is kind of nasty... Come up with something cleverer
         workerargs = self._workerargs
         if isinstance(workerargs, list):
-            t = self._WorkerClass(self._jobs, *workerargs)
+            t = self._WorkerClass(self, *workerargs)
         elif isinstance(workerargs, dict):
-            t = self._WorkerClass(self._jobs, **workerargs)
+            t = self._WorkerClass(self, **workerargs)
         else:
-            t = self._WorkerClass(self._jobs)
+            t = self._WorkerClass(self)
         t.start()
         self._size += 1
 
@@ -63,20 +71,6 @@ class WorkerPool:
             raise IndexError("pool is already empty")
         self._size -= 1
         self.put(SuicideJob())
-
-    def put(self, job, block=True, timeout=None):
-        """
-        Insert a job into the pool queue. Takes same parameters as a Queue
-        object.
-
-        Hint: Have the job append the results to a queue shared by all workers,
-        from which the caller will read an expected number of results.
-        """
-        self._jobs.put(job, block, timeout)
-
-    def wait(self):
-        "Block until all jobs are completed."
-        self._jobs.join()
 
     def size(self):
         "Approximate number of active workers (could be more if a shrinking is in progress)."
@@ -96,3 +90,27 @@ class WorkerPool:
             r.append(results.get())
 
         return r
+
+    # Python 2.4 compatibility methods
+
+    def task_done(self):
+        """(Wrapper for Python 2.4 compatibility) Indicate that a formerly enqueued task is complete. Used for join().
+
+        WARNING: Does nothing in Python 2.4 for now
+        """
+        # TODO: Make this do something useful in Python 2.4
+        if hasattr(Queue, 'task_done'):
+            return Queue.task_done(self)
+
+    def join(self):
+        """(Wrapper for Python 2.4 compatibility) Blocks until all items in the Queue have been gotten and processed.
+
+        WARNING: Does nothing in Python 2.4 for now.
+        """
+        # TODO: Make this do something useful in Python 2.4
+        if hasattr(Queue, 'join'):
+            return Queue.join(self)
+
+    def wait(self, **kw):
+        "DEPRECATED: Use `join()` instead. Block until all jobs are completed."
+        self.join(**kw)
