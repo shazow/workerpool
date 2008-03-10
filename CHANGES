@@ -1,13 +1,23 @@
 Changes
 =======
 
+0.9.2
+-----
+
+* WorkerPool now inherits from Queue. All of the normal Queue operations apply.
+* WorkerPool.wait() has been deprecated in favour of WorkerPool.join().
+* WorkerPool constructor now accepts a worker_factory instead of a (WorkerClass, args) tuple.
+* EquippedWorker constructor now accepts a toolbox_factory instead of a (ToolboxClass, args) tuple.
+* Code has been simplified thanks to the previous two changes.
+* Added backwards compatibility with Python 2.4, but with reduced functionaltiy. WorkerPool's join() and task_done() do nothing in Python 2.4 for now.
+
 0.9.1
 -----
 
-* Changed ``WorkerPool.map`` to behave more like Python's built-in `map` method.
+* Changed WorkerPool.map() to behave more like Python's built-in map() method.
   In consequence, you can no longer define a custom job class to be used by the
-  ``WorkerPool.map`` method. This will probably change before a 1.0 release.
-* Added a unit test for the new ``WorkerPool.map`` functionality.
+  WorkerPool.map() method. This will probably change before a 1.0 release.
+* Added a unit test for the new WorkerPool.map() functionality.
 
 
 0.9
