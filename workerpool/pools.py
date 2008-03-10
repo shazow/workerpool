@@ -4,14 +4,23 @@
 # This module is part of workerpool and is released under
 # the MIT license: http://www.opensource.org/licenses/mit-license.php
 
+
 from Queue import Queue
+if not hasattr(Queue, 'task_done'):
+    # Graft Python 2.5's Queue functionality onto Python 2.4's implementation
+    # TODO: The extra methods do nothing for now. Make them do something.
+    from QueueWrapper import Queue
+
 from workers import Worker
 from jobs import SimpleJob, SuicideJob
 
+
 __all__ = ['WorkerPool', 'default_worker_factory']
+
 
 def default_worker_factory(job_queue):
     return Worker(job_queue)
+
 
 class WorkerPool(Queue):
     """
@@ -92,26 +101,6 @@ class WorkerPool(Queue):
 
         return r
 
-    # Python 2.4 Queue compatibility methods
-
-    def task_done(self):
-        """(Wrapper for Python 2.4 compatibility) Indicate that a formerly enqueued task is complete. Used for join().
-
-        WARNING: Does nothing in Python 2.4 for now
-        """
-        # TODO: Make this do something useful in Python 2.4
-        if hasattr(Queue, 'task_done'):
-            return Queue.task_done(self)
-
-    def join(self):
-        """(Wrapper for Python 2.4 compatibility) Blocks until all items in the Queue have been gotten and processed.
-
-        WARNING: Does nothing in Python 2.4 for now.
-        """
-        # TODO: Make this do something useful in Python 2.4
-        if hasattr(Queue, 'join'):
-            return Queue.join(self)
-
     def wait(self):
-        "DEPRECATED: Use `join()` instead. Block until all jobs are completed."
+        "DEPRECATED: Use join() instead."
         self.join()

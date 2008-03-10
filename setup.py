@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.9.1'
+version = '0.9.2'
 
 setup(name='workerpool',
       version=version,
