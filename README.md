@@ -43,8 +43,8 @@ More thorough unit testing
 Finalize the API for a 1.0 release
 
 ## Who's Using WorkerPool?
-[s3funnel](https://github.com/shazow/s3funnel) - Multithreaded tool for performing operations on Amazon's S3
-[starcluster](https://github.com/jtriley/StarCluster) - Tool for creating clusters of virtual machines on EC2
+* [s3funnel](https://github.com/shazow/s3funnel) - Multithreaded tool for performing operations on Amazon's S3
+* [starcluster](https://github.com/jtriley/StarCluster) - Tool for creating clusters of virtual machines on EC2
 
 Are you using it? Let us know!
 
