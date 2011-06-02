@@ -18,8 +18,7 @@ It consists of these components:
 
 ## Getting Started
 The best place to start for now is to read the code and look at the examples in
-the unit tests (located under trunk/test/) and the sample uses (located under
-trunk/samples/). Documentation contributions are welcome! What have you
+the unit tests ([/test](https://github.com/shazow/workerpool/tree/master/test)) and the sample uses ([/samples](https://github.com/shazow/workerpool/tree/master/samples)). Documentation contributions are welcome! What have you
 accomplished with the workerpool?
 
 ## Tutorials:
