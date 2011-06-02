@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 from setuptools import setup, find_packages
-import sys, os
 
 version = '0.9.2'
 
@@ -11,15 +10,17 @@ setup(name='workerpool',
       long_description="""\
 Performing tasks in many threads made fun!
 
-This module facilitates distributing simple operations into jobs that are sent to worker threads, maintained by a pool object.
+This module facilitates distributing simple operations into jobs that are sent
+to worker threads, maintained by a pool object.
 
 It consists of these components:
 
    1. Jobs, which are single units of work that need to be performed.
    2. Workers, who grab jobs from a queue and perform them.
    3. Worker pool, which keeps track of workers and the job queue.
-""",
-      classifiers = [ # Strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+      """,
+      # Strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
+      classifiers=[
       'Intended Audience :: Developers',
       'Programming Language :: Python',
       'Topic :: Software Development :: Libraries :: Python Modules',
@@ -40,5 +41,5 @@ It consists of these components:
       entry_points="""
       # -*- Entry points: -*-
       """,
-      test_suite = 'nose.collector'
+      test_suite='nose.collector'
       )

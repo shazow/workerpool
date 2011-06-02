@@ -1,27 +1,32 @@
 import unittest
 
 from Queue import Queue, Empty
-import os
 import sys
 sys.path.append('../')
 
 import workerpool
 
+
 class TestWorkerPool(unittest.TestCase):
+    def double(self, i):
+        return i * 2
+
+    def add(self, *args):
+        return sum(args)
+
     def test_map(self):
         "Map a list to a method to a pool of two workers."
         pool = workerpool.WorkerPool(2)
-        def double(i): return i*2
-        r = pool.map(double, [1,2,3,4,5])
-        self.assertEquals(r, [2,4,6,8,10])
+
+        r = pool.map(self.double, [1, 2, 3, 4, 5])
+        self.assertEquals(r, [2, 4, 6, 8, 10])
         pool.shutdown()
 
     def test_map_multiparam(self):
         "Test map with multiple parameters."
         pool = workerpool.WorkerPool(2)
-        def add(*args): return sum(args)
-        r = pool.map(add, [1,2,3], [4,5,6])
-        self.assertEquals(r, [5,7,9])
+        r = pool.map(self.add, [1, 2, 3], [4, 5, 6])
+        self.assertEquals(r, [5, 7, 9])
         pool.shutdown()
 
     def test_wait(self):
@@ -60,7 +65,7 @@ class TestWorkerPool(unittest.TestCase):
             pool.shrink()
         pool.wait()
         self.assertEquals(pool.size(), 0)
-        
+
         # Make sure nothing is reading jobs anymore
         q = Queue()
         for i in xrange(5):
@@ -68,7 +73,8 @@ class TestWorkerPool(unittest.TestCase):
         try:
             q.get(block=False)
         except Empty:
-            pass # Success
+            pass  # Success
         else:
-            assert False, "Something returned a result, even though we are expecting no workers."
+            assert False, "Something returned a result, even though we are"
+            "expecting no workers."
         pool.shutdown()

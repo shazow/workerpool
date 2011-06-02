@@ -49,16 +49,19 @@ class WorkerPool(Queue):
         jobs Queue object that it will read from to acquire jobs. The factory
         will produce a Worker object which will be added to the pool.
     """
-    def __init__(self, size=1, maxjobs=0, worker_factory=default_worker_factory):
+    def __init__(self, size=1, maxjobs=0,
+                 worker_factory=default_worker_factory):
         if not callable(worker_factory):
             raise TypeError("worker_factory must be callable")
 
-        self.worker_factory = worker_factory # Used to build new workers
-        self._size = 0 # Number of active workers we have
+        self.worker_factory = worker_factory  # Used to build new workers
+        self._size = 0  # Number of active workers we have
 
         # Initialize the Queue
-        Queue.__init__(self, maxjobs) # The queue contains job that are read by workers
-        self._jobs = self # Pointer to the queue, for backwards compatibility with version 0.9.1 and earlier
+        # The queue contains job that are read by workers
+        Queue.__init__(self, maxjobs)
+        # Pointer to the queue for backward-compatibility with version <=0.9.1
+        self._jobs = self
 
         # Hire some workers!
         for i in xrange(size):
@@ -83,11 +86,13 @@ class WorkerPool(Queue):
             self.put(SuicideJob())
 
     def size(self):
-        "Approximate number of active workers (could be more if a shrinking is in progress)."
+        "Approximate number of active workers"
+        "(could be more if a shrinking is in progress)."
         return self._size
 
     def map(self, fn, *seq):
-        "Perform a map operation distributed among the workers. Will block until done."
+        "Perform a map operation distributed among the workers. Will "
+        "block until done."
         results = Queue()
         args = zip(*seq)
         for seq in args:
