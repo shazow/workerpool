@@ -3,18 +3,15 @@ Collection of Amazon Web Services related jobs. Due to the distributed nature
 of AWS, executing calls in parallel is super useful.
 """
 
-from workerpool import *
+from workerpool import WorkerPool, SimpleJob, EquippedWorker
 
 try:
     import boto
-    from boto.sdb.domain import Domain
 except ImportError:
     print """
     This module requires `boto` to communicate with Amazon's web services.
     Install it using easy_install:
         easy_install boto
-    Or get it from:
-        http://code.google.com/p/boto/
     """
     raise
 

@@ -1,7 +1,6 @@
 import unittest
 
 from Queue import Queue, Empty
-import os
 import sys
 sys.path.append('../')
 

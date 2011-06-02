@@ -5,7 +5,6 @@
 # the MIT license: http://www.opensource.org/licenses/mit-license.php
 
 from threading import Thread
-from jobs import Job, SimpleJob
 from exceptions import TerminationNotice
 
 __all__ = ['Worker', 'EquippedWorker']
