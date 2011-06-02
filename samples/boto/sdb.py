@@ -3,6 +3,9 @@ Collection of Amazon Web Services related jobs. Due to the distributed nature
 of AWS, executing calls in parallel is super useful.
 """
 
+import time
+from Queue import Queue
+
 from workerpool import WorkerPool, SimpleJob, EquippedWorker
 
 try:
@@ -15,21 +18,21 @@ except ImportError:
     """
     raise
 
+
 class SDBToolBox(object):
     "Create a connection to SimpleDB and hold on to it."
     def __init__(self, domain):
         self.conn = boto.connect_sdb()
         self.domain = self.conn.get_domain(domain)
 
+
 class SdbJob(SimpleJob):
     def run(self, toolbox):
-        assert isinstance(toolbox.domain, self.method.im_class), "Method pointer must come from the Domain class"
+        msg = "Method pointer must come from the Domain class"
+        assert isinstance(toolbox.domain, self.method.im_class), msg
         r = self.method(toolbox.domain, *self.args)
         self.result.put(r)
 
-# Sample usage
-import time
-from Queue import Queue
 
 def main():
     DOMAIN = "benchmark"
@@ -47,7 +50,8 @@ def main():
         print "No items found."
         return
 
-    print "Fetched manifest of %d items in %f seconds, proceeding." % (len(items), elapsed)
+    msg = "Fetched manifest of %d items in %f seconds, proceeding."
+    print msg % (len(items), elapsed)
 
     # THE REAL MEAT:
 
@@ -56,9 +60,10 @@ def main():
 
     def toolbox_factory():
         return SDBToolBox(DOMAIN)
+
     def worker_factory(job_queue):
         return EquippedWorker(job_queue, toolbox_factory)
-    
+
     pool = WorkerPool(size=20, worker_factory=worker_factory)
 
     print "Starting to fetch items..."
@@ -80,4 +85,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

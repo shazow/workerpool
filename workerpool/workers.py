@@ -9,6 +9,7 @@ from exceptions import TerminationNotice
 
 __all__ = ['Worker', 'EquippedWorker']
 
+
 class Worker(Thread):
     """
     A loyal worker who will pull jobs from the `jobs` queue and perform them.
@@ -35,12 +36,13 @@ class Worker(Thread):
                 self.jobs.task_done()
             except TerminationNotice:
                 self.jobs.task_done()
-                break 
+                break
+
 
 class EquippedWorker(Worker):
     """
     Each worker will create an instance of ``toolbox`` and hang on to it during
-    its lifetime. This can be used to pass in a resource such as a persistent 
+    its lifetime. This can be used to pass in a resource such as a persistent
     connections to services that the worker will be using.
 
     The toolbox factory is called without arguments to produce an instance of

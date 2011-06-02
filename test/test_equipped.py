@@ -6,13 +6,16 @@ sys.path.append('../')
 
 import workerpool
 
+
 class Counter(object):
     "Counter resource used for testing EquippedWorker."
     def __init__(self):
         self.count = 0
 
+
 class CountJob(workerpool.Job):
-    "Job that just increments the count in its resource and append it to the results queue."
+    "Job that just increments the count in its resource and append it to the"
+    "results queue."
     def __init__(self, results):
         self.results = results
 
@@ -20,6 +23,7 @@ class CountJob(workerpool.Job):
         "Append the current count to results and increment."
         self.results.put(toolbox.count)
         toolbox.count += 1
+
 
 class TestEquippedWorkers(unittest.TestCase):
     def test_equipped(self):
@@ -31,6 +35,7 @@ class TestEquippedWorkers(unittest.TestCase):
 
         def toolbox_factory():
             return Counter()
+
         def worker_factory(job_queue):
             return workerpool.EquippedWorker(job_queue, toolbox_factory)
 
