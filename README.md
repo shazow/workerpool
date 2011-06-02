@@ -56,5 +56,3 @@ Idée for letting me open source it!
 Copyright (c) 2008 Andrey Petrov (andrey.petrov@shazow.net)
 
 Original copyright by Idee Inc. (http://ideeinc.com/)
-
-http://code.google.com/p/workerpool/
