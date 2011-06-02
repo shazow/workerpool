@@ -5,8 +5,7 @@ WorkerPool
 The workerpool module is a simple framework for easily distributing jobs
 into multiple worker threads.
 
-Examples of usage can be found in the unit tests (/test) and the samples
-provided (/samples).
+Examples of usage can be found in the unit tests ([/test](https://github.com/shazow/workerpool/tree/master/test)) and the samples provided ([/samples](https://github.com/shazow/workerpool/tree/master/samples)).
 
 This module facilitates distributing simple operations into jobs that are sent
 to worker threads, maintained by a pool object.
@@ -24,7 +23,7 @@ trunk/samples/). Documentation contributions are welcome! What have you
 accomplished with the workerpool?
 
 ## Tutorials:
-MassDownloader - How to write a simple multi-threaded mass downloader in under
+[MassDownloader](https://github.com/shazow/workerpool/wiki/Mass-Downloader) - How to write a simple multi-threaded mass downloader in under
 10 lines of code.
 
 
@@ -44,8 +43,8 @@ More thorough unit testing
 Finalize the API for a 1.0 release
 
 ## Who's Using WorkerPool?
-s3funnel - Multithreaded tool for performing operations on Amazon's S3
-starcluster - Tool for creating clusters of virtual machines on EC2
+[s3funnel](https://github.com/shazow/s3funnel) - Multithreaded tool for performing operations on Amazon's S3
+[starcluster](https://github.com/jtriley/StarCluster) - Tool for creating clusters of virtual machines on EC2
 
 Are you using it? Let us know!
 
