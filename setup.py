@@ -2,7 +2,7 @@
 
 from setuptools import setup, find_packages
 
-version = '0.9.2'
+version = '0.9.3'
 
 setup(name='workerpool',
       version=version,
@@ -22,7 +22,8 @@ It consists of these components:
       # Strings from http://pypi.python.org/pypi?%3Aaction=list_classifiers
       classifiers=[
       'Intended Audience :: Developers',
-      'Programming Language :: Python',
+      'Programming Language :: Python :: 2',
+      'Programming Language :: Python :: 3',
       'Topic :: Software Development :: Libraries :: Python Modules',
       'License :: OSI Approved :: MIT License',
       'Operating System :: OS Independent',
@@ -37,6 +38,7 @@ It consists of these components:
       zip_safe=False,
       install_requires=[
           # -*- Extra requirements: -*-
+          "six"
       ],
       entry_points="""
       # -*- Entry points: -*-
