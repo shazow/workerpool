@@ -4,7 +4,7 @@
 # This module is part of workerpool and is released under
 # the MIT license: http://www.opensource.org/licenses/mit-license.php
 
-from exceptions import TerminationNotice
+from workerpool.exceptions import TerminationNotice
 
 __all__ = ['Job', 'SuicideJob', 'SimpleJob']
 

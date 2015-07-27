@@ -1,8 +1,9 @@
 import unittest
-
-from Queue import Queue
 import sys
 sys.path.append('../')
+
+from six.moves import range
+from six.moves.queue import Queue
 
 import workerpool
 
@@ -42,12 +43,12 @@ class TestEquippedWorkers(unittest.TestCase):
         pool = workerpool.WorkerPool(1, worker_factory=worker_factory)
 
         # Run 10 jobs
-        for i in xrange(10):
+        for i in range(10):
             j = CountJob(results)
             pool.put(j)
 
         # Get 10 results
-        for i in xrange(10):
+        for i in range(10):
             r = results.get()
             # Each result should be an incremented value
             self.assertEquals(r, i)

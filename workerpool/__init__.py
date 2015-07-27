@@ -24,7 +24,7 @@ for performing a specialized type of job.
 
 """
 
-from exceptions import *
-from jobs import *
-from pools import *
-from workers import *
+from workerpool.exceptions import *
+from workerpool.jobs import *
+from workerpool.pools import *
+from workerpool.workers import *

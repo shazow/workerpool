@@ -1,8 +1,9 @@
 import unittest
-
-from Queue import Queue, Empty
 import sys
 sys.path.append('../')
+
+from six.moves import range
+from six.moves.queue import Queue, Empty
 
 import workerpool
 
@@ -33,7 +34,7 @@ class TestWorkerPool(unittest.TestCase):
         "Make sure each task gets marked as done so pool.wait() works."
         pool = workerpool.WorkerPool(5)
         q = Queue()
-        for i in xrange(100):
+        for i in range(100):
             pool.put(workerpool.SimpleJob(q, sum, [range(5)]))
         pool.wait()
         pool.shutdown()
@@ -58,17 +59,17 @@ class TestWorkerPool(unittest.TestCase):
     def test_changesize(self):
         "Change sizes and make sure pool doesn't work with no workers."
         pool = workerpool.WorkerPool(5)
-        for i in xrange(5):
+        for i in range(5):
             pool.grow()
         self.assertEquals(pool.size(), 10)
-        for i in xrange(10):
+        for i in range(10):
             pool.shrink()
         pool.wait()
         self.assertEquals(pool.size(), 0)
 
         # Make sure nothing is reading jobs anymore
         q = Queue()
-        for i in xrange(5):
+        for i in range(5):
             pool.put(workerpool.SimpleJob(q, sum, [range(5)]))
         try:
             q.get(block=False)

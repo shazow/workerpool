@@ -4,15 +4,11 @@
 # This module is part of workerpool and is released under
 # the MIT license: http://www.opensource.org/licenses/mit-license.php
 
+from six.moves import range
+from six.moves.queue import Queue
 
-from Queue import Queue
-if not hasattr(Queue, 'task_done'):
-    # Graft Python 2.5's Queue functionality onto Python 2.4's implementation
-    # TODO: The extra methods do nothing for now. Make them do something.
-    from QueueWrapper import Queue
-
-from workers import Worker
-from jobs import SimpleJob, SuicideJob
+from workerpool.workers import Worker
+from workerpool.jobs import SimpleJob, SuicideJob
 
 
 __all__ = ['WorkerPool', 'default_worker_factory']
@@ -64,7 +60,7 @@ class WorkerPool(Queue):
         self._jobs = self
 
         # Hire some workers!
-        for i in xrange(size):
+        for i in range(size):
             self.grow()
 
     def grow(self):
@@ -82,7 +78,7 @@ class WorkerPool(Queue):
 
     def shutdown(self):
         "Retire the workers."
-        for i in xrange(self.size()):
+        for i in range(self.size()):
             self.put(SuicideJob())
 
     def size(self):
@@ -101,7 +97,7 @@ class WorkerPool(Queue):
 
         # Aggregate results
         r = []
-        for i in xrange(len(args)):
+        for i in range(len(list(args))):
             r.append(results.get())
 
         return r
