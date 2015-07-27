@@ -31,7 +31,7 @@ It consists of these components:
       keywords='pooling threading jobs',
       author='Andrey Petrov',
       author_email='andrey.petrov@shazow.net',
-      url='http://code.google.com/p/workerpool/',
+      url='https://github.com/shazow/workerpool',
       license='MIT',
       packages=find_packages(exclude=['ez_setup', 'examples', 'tests']),
       include_package_data=True,
